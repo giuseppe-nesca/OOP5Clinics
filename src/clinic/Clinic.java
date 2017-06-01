@@ -141,29 +141,40 @@ public class Clinic {
 					if(splittedStrings[0] == "P"){ //if patient
 						String first = splittedStrings[1];
 						String last = splittedStrings[2];
-						int ssn;
+						String ssn = splittedStrings[3];
+						/*int ssn;
 						try{
 							ssn = Integer.parseInt(splittedStrings[3]);
 						}catch(NumberFormatException e){ 
 							continue;
-						}
+						}*/
 						//TODO :: tutto corretto puoi caricare in memoria
+						addPatient(first, last, ssn);
 					}
 					if(splittedStrings[0] == "M"){ //if doctor
 						int docID;
 						try{
 							docID = Integer.parseInt(splittedStrings[1]);
-						}catch(NumberFormatException e){}
+						}catch(NumberFormatException e){ 
+							System.err.println("errore formato docID:");
+							System.err.println(splittedStrings[0]);
+							continue;
+							}
 						String first = splittedStrings[2];
 						String last = splittedStrings[3];
 						String ssn = splittedStrings[4];
 						String specialization = splittedStrings[5];
 						//TODO : tutto corretto puoi caricare in memoria
+						addDoctor(first, last, ssn, docID, specialization);
 					}
-				}catch(NullPointerException e){}
+				}catch(NullPointerException e){
+					System.err.println("errore formato linea in lettura:");
+					System.err.println(line);
+				}
 			}
 		}catch (IOException e) {
 			// TODO: handle exception
+			System.err.println("errore in lettura file ");
 		}
 
 	}
