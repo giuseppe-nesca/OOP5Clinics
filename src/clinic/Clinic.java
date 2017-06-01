@@ -7,6 +7,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+import com.sun.glass.ui.Size;
+
+import sun.swing.text.CountingPrintable;
+
 public class Clinic {
 
 	Map<String,Person> patients = new HashMap<>();
@@ -91,7 +98,7 @@ public class Clinic {
 					})
 					.collect(Collectors.toList());
 		sortedDoctors.forEach(d ->{
-			String s = "" + String.format("%3d", d.getPatients().size()) + " : " + d.docID + " " + d.getLast() + " " + d.getFirst();
+			String s = "" + String.format("%3d", d.getPatients().size()) + " : " + d.getId() + " " + d.getLast() + " " + d.getFirst();
 			strings.add(s);
 		});
 		
@@ -106,7 +113,23 @@ public class Clinic {
 	 * represent the number of patients (printed on three characters).
 	 */
 	public Collection<String> countPatientsPerSpecialization(){
-		return null;
+		
+		Map<String, Integer> specializationNum = new HashMap<>();
+		Collection<String> specializationStrings = new ArrayList<String>();
+		
+		doctors.values().forEach(d->{
+			int num = 0;
+			if( specializationNum.get(d.getSpecialization()) != null ){ 
+				num = specializationNum.get(d.getSpecialization());
+			}
+			specializationNum.put(d.getSpecialization(), num + d.getPatients().size());
+			//specializationStrings.add("" + String.format("%3d", d.getPatients().size()) + " - " + );
+		});
+		specializationNum.keySet().forEach( k -> {
+			specializationStrings.add("" + String.format("%3d", specializationNum.get(k)) + " - " + k);
+		});
+		
+		return specializationStrings;
 	}
 
 	public void loadData(String path) throws IOException {

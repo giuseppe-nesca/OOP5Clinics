@@ -5,9 +5,9 @@ import java.util.*;
 
 public class Doctor extends Person {
 
-	int docID;
-	String specialization;
-	Map<String,Person> patients = new HashMap<>();
+	private int docID;
+	private String specialization;
+	private Map<String,Person> patients = new HashMap<>();
 	
 	public Doctor(String first, String last, String ssn, int docID, String specialization){
 		super(first, last, ssn);
